@@ -13,3 +13,10 @@ _a lot of `WORK IN PROGRESS`_
 ```shell
 deno run --allow-net --allow-read run.ts
 ```
+
+
+# Usage
+
+Add `![JenksinArt](jenkinsrandomart-production.up.railway.app)` to your markdown. E.g.:
+
+![JenksinArt](jenkinsrandomart-production.up.railway.app)
