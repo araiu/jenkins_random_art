@@ -19,8 +19,8 @@ const handler = async (request: Request): Response => {
     images_urls.push(image_node.attributes.getNamedItem("src").value);
   });
   const filtered_urls = pop_denied_elements(images_urls, [
-    "actor",
-    "worldwide",
+    "cossack",
+    // "worldwide",
   ]); // TODO: Read the deny_list from repo or some remote location
   // Generate a random element from the filtered list
   const index_to_return = Math.floor(Math.random() * filtered_urls.length);
@@ -28,40 +28,22 @@ const handler = async (request: Request): Response => {
 
   console.log(`Fetching ${Jenkins_art_URL}`);
 
-  // // Fetch the remote image --> Not needed anymore as we redirect the request
-  // const Jenkins_art = await fetch(Jenkins_art_URL);
-  // console.log(Jenkins_art.blob);
-  // const headers = new Headers();
-  // headers.set('content-type', 'image/png')
-
-  // Build the response
-  const res = Response.redirect(Jenkins_art_URL);
-  return res;
+  // Fetch the remote image --> Not needed anymore as we redirect the request
+  const headers = new Headers();
+  headers.set('content-type', 'image/png')
+  const Jenkins_art_png = new Uint8Array(await (await fetch(Jenkins_art_URL)).arrayBuffer());
+  return new Response(
+    Jenkins_art_png,
+    {
+      status: 200,
+      headers: headers,
+    }
+  )
 };
 
-console.log("HTTP server running. Access it at localhost:" + PORT);
-await serve(handler, { PORT });
+console.log("HTTP server running. Access it at localhost: " + PORT);
+await serve(handler, { port:PORT });
 
-// try {
-//     // Fetch and save HTML content
-//     const res = await fetch(URL);
-//     const html = await res.text();
-//     const html_dom = new DOMParser().parseFromString(html, "text/html");
-//     const image_nodes = html_dom?.querySelectorAll(".logo-thumb")
-
-//     // Extract src attributes from html nodes, keeping just the endpoint
-//     const images_urls: string[] = []
-//     Array.from(image_nodes).forEach(image_node => {
-//         images_urls.push(image_node.attributes.getNamedItem('src').value)
-//     })
-//     const filtered_urls = pop_denied_elements(images_urls, ["actor","worldwide"]) // TODO: Read the deny_list from repo or some remote location
-
-//     // Generate a random element from the filtered list
-//     const index_to_return = Math.floor((Math.random() * filtered_urls.length))
-//     console.log(BASE_URL + filtered_urls[index_to_return])
-// } catch(error) {
-//     console.log(error)
-// }
 
 function pop_denied_elements(arr: string[], deny_list: string[]) {
   return arr.filter((element) => {
