@@ -17,6 +17,6 @@ deno run --allow-net --allow-read run.ts
 
 # Usage
 
-Add `![JenksinArt](jenkinsrandomart-production.up.railway.app)` to your markdown. E.g.:
+Add `![JenksinArt](https://jenkinsrandomart-production.up.railway.app)` to your markdown. E.g.:
 
-![JenksinArt](jenkinsrandomart-production.up.railway.app)
+![JenksinArt](https://jenkinsrandomart-production.up.railway.app)
